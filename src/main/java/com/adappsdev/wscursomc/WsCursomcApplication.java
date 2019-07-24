@@ -105,9 +105,9 @@ public class WsCursomcApplication implements CommandLineRunner{
 		//String siglasEstados[]={"AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"};
 
 		//Instanciando as cidades
-		Cidade c1 = new Cidade(null, "Uberlandia", est1);
-		Cidade c2 = new Cidade(null, "São Paulo", est2);
-		Cidade c3 = new Cidade(null, "Campinas", est2);
+		Cidade c1 = new Cidade(null, "Uberlandia", est13);
+		Cidade c2 = new Cidade(null, "São Paulo", est25);
+		Cidade c3 = new Cidade(null, "Campinas", est25);
 
 		//Associando os estados com as cidades
 		est1.getCidades().addAll(Arrays.asList(c1));
