@@ -1,5 +1,6 @@
 package com.adappsdev.wscursomc;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,18 +13,25 @@ import com.adappsdev.wscursomc.domain.Cidade;
 import com.adappsdev.wscursomc.domain.Cliente;
 import com.adappsdev.wscursomc.domain.Endereco;
 import com.adappsdev.wscursomc.domain.Estado;
+import com.adappsdev.wscursomc.domain.Pagamento;
+import com.adappsdev.wscursomc.domain.PagamentoComBoleto;
+import com.adappsdev.wscursomc.domain.PagamentoComCartao;
+import com.adappsdev.wscursomc.domain.Pedido;
 import com.adappsdev.wscursomc.domain.Produto;
+import com.adappsdev.wscursomc.domain.enums.EstadoPagamento;
 import com.adappsdev.wscursomc.domain.enums.TipoCliente;
 import com.adappsdev.wscursomc.repositories.CategoriaRepository;
 import com.adappsdev.wscursomc.repositories.CidadeRepository;
 import com.adappsdev.wscursomc.repositories.ClienteRepository;
 import com.adappsdev.wscursomc.repositories.EnderecoRepository;
 import com.adappsdev.wscursomc.repositories.EstadoRepository;
+import com.adappsdev.wscursomc.repositories.PagamentoRepository;
+import com.adappsdev.wscursomc.repositories.PedidoRepository;
 import com.adappsdev.wscursomc.repositories.ProdutoRepository;
 
 @SpringBootApplication
 public class WsCursomcApplication implements CommandLineRunner{
-	
+		
 	@Autowired
 	private CategoriaRepository categoriaRepository;	
 	@Autowired
@@ -36,13 +44,18 @@ public class WsCursomcApplication implements CommandLineRunner{
 	private ClienteRepository clienteRepository;
 	@Autowired 
 	private EnderecoRepository enderecoRepository;
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 	
 	public static void main(String[] args) {
-		SpringApplication.run(WsCursomcApplication.class, args);
+		SpringApplication.run(WsCursomcApplication.class, args);		 
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
+		long initialTime = System.currentTimeMillis();
 		
 		/*********************
 		 * CATEGORIAS E PRODUTOS
@@ -132,5 +145,45 @@ public class WsCursomcApplication implements CommandLineRunner{
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(e1,e2));
 		
-	}
+		//Instanciando pedidos e forma de pagamento 
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
+		
+		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO , ped1, 6);
+		ped1.setPagamento(pagto1);
+		
+		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE , ped2, sdf.parse("20/10/2017 00:00"), null);
+		ped2.setPagamento(pagto2);
+		
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/*
+		 * Tempo de execução:
+		 * long initialTime = System.currentTimeMillis(); inicia a contagem do tempo
+		 * long endTime = System.currentTimeMillis(); finaliza a contagem do tempo
+		 * O tempo total decorrido será o tempo final menos o tempo inicial 
+		 */
+		long endTime = System.currentTimeMillis();
+		System.out.println("Tempo total em milessegundos: " + (endTime - initialTime));
+	    System.out.println("Tempo total em segundos: " + (endTime - initialTime)/1000);
+	}	
 }
