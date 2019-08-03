@@ -13,6 +13,7 @@ import com.adappsdev.wscursomc.domain.Cidade;
 import com.adappsdev.wscursomc.domain.Cliente;
 import com.adappsdev.wscursomc.domain.Endereco;
 import com.adappsdev.wscursomc.domain.Estado;
+import com.adappsdev.wscursomc.domain.ItemPedido;
 import com.adappsdev.wscursomc.domain.Pagamento;
 import com.adappsdev.wscursomc.domain.PagamentoComBoleto;
 import com.adappsdev.wscursomc.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.adappsdev.wscursomc.repositories.CidadeRepository;
 import com.adappsdev.wscursomc.repositories.ClienteRepository;
 import com.adappsdev.wscursomc.repositories.EnderecoRepository;
 import com.adappsdev.wscursomc.repositories.EstadoRepository;
+import com.adappsdev.wscursomc.repositories.ItemPedidoRepository;
 import com.adappsdev.wscursomc.repositories.PagamentoRepository;
 import com.adappsdev.wscursomc.repositories.PedidoRepository;
 import com.adappsdev.wscursomc.repositories.ProdutoRepository;
@@ -48,6 +50,8 @@ public class WsCursomcApplication implements CommandLineRunner{
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(WsCursomcApplication.class, args);		 
@@ -162,20 +166,21 @@ public class WsCursomcApplication implements CommandLineRunner{
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		//Instanciando ítens de pedido
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
+
+				
 		/*
 		 * Tempo de execução:
 		 * long initialTime = System.currentTimeMillis(); inicia a contagem do tempo

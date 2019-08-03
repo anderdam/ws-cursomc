@@ -21,7 +21,7 @@ public abstract class Pagamento implements Serializable{
 	@Id
 	
 	private Integer id;
-	private EstadoPagamento estado;
+	private Integer estado;
 	
 	//Associações
 	@JsonBackReference
@@ -35,7 +35,7 @@ public abstract class Pagamento implements Serializable{
 
 	public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
 		this.id = id;
-		this.estado = estado;
+		this.estado = estado.getCod();
 		this.pedido = pedido;
 	}
 
@@ -48,10 +48,10 @@ public abstract class Pagamento implements Serializable{
 	}
 
 	public EstadoPagamento getEstado() {
-		return estado;
+		return EstadoPagamento.toEnum(estado);
 	}
 
-	public void setEstado(EstadoPagamento estado) {
+	public void setEstado(Integer estado) {
 		this.estado = estado;
 	}
 
