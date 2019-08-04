@@ -188,7 +188,8 @@ public class WsCursomcApplication implements CommandLineRunner{
 		 * O tempo total decorrido será o tempo final menos o tempo inicial 
 		 */
 		long endTime = System.currentTimeMillis();
-		System.out.println("Tempo total em milessegundos: " + (endTime - initialTime));
-	    System.out.println("Tempo total em segundos: " + (endTime - initialTime)/1000);
+		long totalTime = endTime - initialTime;
+		System.out.println("Tempo total em milessegundos: " + (totalTime));
+	    System.out.println("Tempo total em segundos: " + (totalTime)/1000);
 	}	
 }
