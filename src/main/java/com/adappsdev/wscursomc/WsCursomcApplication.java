@@ -59,14 +59,20 @@ public class WsCursomcApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		long initialTime = System.currentTimeMillis();
-		
+				
 		/*********************
 		 * CATEGORIAS E PRODUTOS
 		 * *******************/
 		//Instanciando as categorias
 		Categoria cat1 = new Categoria(null, "Informática");
 		Categoria cat2 = new Categoria(null, "Escritório");
+		Categoria cat3 = new Categoria(null, "Cama mesa e banho");
+		Categoria cat4 = new Categoria(null, "Eletrônicos");
+		Categoria cat5 = new Categoria(null, "Jardinagem");
+		Categoria cat6 = new Categoria(null, "Decoração");
+		Categoria cat7 = new Categoria(null, "Perfumaria");
+
+
 		
 		//Instanciando os produtos
 		Produto p1 = new Produto(null, "Computador", 2000.00);
@@ -83,7 +89,7 @@ public class WsCursomcApplication implements CommandLineRunner{
 		p3.getCategorias().addAll(Arrays.asList(cat1));
 		
 		//Adicionando aos repositórios
-		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
+		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
 		
 		/*********************
@@ -178,18 +184,6 @@ public class WsCursomcApplication implements CommandLineRunner{
 		p2.getItens().addAll(Arrays.asList(ip3));
 		p3.getItens().addAll(Arrays.asList(ip2));
 
-		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
-
-				
-		/*
-		 * Tempo de execução:
-		 * long initialTime = System.currentTimeMillis(); inicia a contagem do tempo
-		 * long endTime = System.currentTimeMillis(); finaliza a contagem do tempo
-		 * O tempo total decorrido será o tempo final menos o tempo inicial 
-		 */
-		long endTime = System.currentTimeMillis();
-		long totalTime = endTime - initialTime;
-		System.out.println("Tempo total em milessegundos: " + (totalTime));
-	    System.out.println("Tempo total em segundos: " + (totalTime)/1000);
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));		
 	}	
 }
