@@ -10,33 +10,39 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.adappsdev.wscursomc.domain.Categoria;
+import com.adappsdev.wscursomc.dto.CategoriaDTO;
 import com.adappsdev.wscursomc.repositories.CategoriaRepository;
 import com.adappsdev.wscursomc.services.exceptions.DataIntegrityException;
 import com.adappsdev.wscursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
-public class CategoriaService {
+public class CategoriaService 
+{
 	
 	@Autowired
 	private CategoriaRepository repo;
 	
-	public Categoria find(Integer id) {
+	public Categoria find(Integer id) 
+	{
 		Optional<Categoria> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 		"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
 	}
 
-	public Categoria insert(Categoria obj) {
+	public Categoria insert(Categoria obj) 
+	{
 		obj.setId(null);
 		return repo.save(obj);
 	}
 
-	public Categoria update(Categoria obj) {
+	public Categoria update(Categoria obj) 
+	{
 		find(obj.getId());
 		return repo.save(obj);
 	}
 
-	public void delete(Integer id) {
+	public void delete(Integer id) 
+	{
 		find(id);
 		try {
 			repo.deleteById(id);	
@@ -45,13 +51,20 @@ public class CategoriaService {
 		}		
 	}
 
-	public List<Categoria> findAll() {
+	public List<Categoria> findAll()
+	{
 		return repo.findAll();
 	}
 
-	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction)
+	{
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, 						org.springframework.data.domain.Sort.Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
 
+	}
+
+	public Categoria fromDto(CategoriaDTO objDto)
+	{
+		return new Categoria(objDto.getId(), objDto.getName());
 	}
 }
